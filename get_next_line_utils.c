@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: winkh99 <winkh99@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 19:51:41 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/21 14:21:54 by adardour         ###   ########.fr       */
+/*   Updated: 2022/11/22 19:07:00 by winkh99          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 #include "get_next_line.h"
 
-char	*concatenation(char const *s1, char const *s2)
+char	*concatenation(char *s1, char  *s2)
 {
 	char	*ptr;
 	size_t	i;
 	size_t	j;
-
+	
+	if(s1 ==  NULL)
+		s1 = ft_strdup("");
 	ptr = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (ptr == NULL)
 		return (NULL);
@@ -37,6 +39,7 @@ char	*concatenation(char const *s1, char const *s2)
 		j++;
 	}
 	ptr[i] = '\0';
+	free(s1);
 	return (ptr);
 }
 
@@ -50,7 +53,7 @@ int	len(char *line)
 	return (i);
 }
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *s)
 {
 	size_t	size;
 
@@ -62,7 +65,7 @@ size_t	ft_strlen(const char *s)
 	return (size);
 }
 
-char	*cut_string(char const *s, unsigned int start, size_t len)
+char	*cut_string(char *s, unsigned int start, size_t len)
 {
 	char	*substr;
 	size_t	i;
@@ -72,10 +75,8 @@ char	*cut_string(char const *s, unsigned int start, size_t len)
 	if (len > ft_strlen(s))
 		len = ft_strlen(s) - start;
 	if (start >= (unsigned long)ft_strlen(s))
-		return (ft_strdup(""));
+		return ("");
 	substr = (char *)malloc(sizeof(char) * (len + 1));
-	if (substr == NULL)
-		return (NULL);
 	i = 0;
 	while (s[i] != '\0' && i < len)
 	{
@@ -87,14 +88,16 @@ char	*cut_string(char const *s, unsigned int start, size_t len)
 	return (substr);
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(char *s1)
 {
 	char	*ptr;
 	size_t	i;
 
 	ptr = (char *)malloc(ft_strlen(s1) + 1);
-	if (ptr == NULL)
+	if (ptr == NULL){
+		free(ptr);
 		return (NULL);
+	}
 	i = 0;
 	while (i < ft_strlen(s1))
 	{

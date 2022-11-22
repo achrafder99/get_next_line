@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: winkh99 <winkh99@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 19:51:35 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/20 14:34:50 by adardour         ###   ########.fr       */
+/*   Updated: 2022/11/22 18:32:34 by winkh99          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 # include <unistd.h>
 #include <limits.h>
 
-char		*concatenation(char const *s1, char const *s2);
-size_t		ft_strlen(const char *s);
+char	*concatenation(char *s1, char  *s2);
+size_t		ft_strlen(char *s);
 int			len(char *line);
-char		*cut_string(char const *s, unsigned int start, size_t len);
+char		*cut_string(char *s, unsigned int start, size_t len);
 char	*get_next_line(int fd);
-char		*ft_strdup(const char *s1);
+char		*ft_strdup(char *s1);
 
 typedef struct next_line
 {
