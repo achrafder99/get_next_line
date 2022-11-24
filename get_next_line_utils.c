@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: winkh99 <winkh99@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:31 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/23 20:05:45 by adardour         ###   ########.fr       */
+/*   Updated: 2022/11/23 22:36:41 by winkh99          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ char	*ft_strjoin(char *s1, char const *s2)
 	size_t	j;
 
 	if (s1 == NULL)
-		s1 = strdup("");
+		s1 = "";
 	ptr = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (ptr == NULL)
+	if (ptr == NULL){
+		free(ptr);
 		return (NULL);
+	}
 	i = 0;
 	j = 0;
 	while (s1[i] != '\0')

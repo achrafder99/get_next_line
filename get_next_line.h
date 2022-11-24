@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: winkh99 <winkh99@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:38 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/23 19:14:46 by adardour         ###   ########.fr       */
+/*   Updated: 2022/11/23 22:36:32 by winkh99          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ int check_if_there_newline(char *line);
 char	*ft_strjoin(char *s1, char const *s2);
 char *get_next_line(int fd);
 size_t	ft_strlen(const char *s);
+
 
 #endif
