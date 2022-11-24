@@ -6,7 +6,7 @@
 /*   By: winkh99 <winkh99@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:36 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/24 01:35:12 by winkh99          ###   ########.fr       */
+/*   Updated: 2022/11/24 02:08:04 by winkh99          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ static char *get_next(char *next)
 	while(next[i] != '\n' && next[i] != '\0')
 		i++;
 	str = malloc((ft_strlen(next) - i) + 1);
-	if(str == NULL)
+	if(str == NULL){
+		free(str);
 		return (NULL);
+	}
 	i++;
 	int j;
 	j = 0;
@@ -109,7 +111,7 @@ int main(){
 	fd = open("test.txt",O_RDONLY);
 	char *line;
 	int i = 0;
-	while(i < 3)
+	while(i < 1)
 	{
 		line = get_next_line(fd);
 		printf("%s",line);
