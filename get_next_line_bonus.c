@@ -5,99 +5,113 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/19 19:51:26 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/21 13:54:20 by adardour         ###   ########.fr       */
+/*   Created: 2022/11/23 18:36:36 by adardour          #+#    #+#             */
+/*   Updated: 2022/11/24 20:05:42 by adardour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	check_if_theres_newline(char *buffer)
-{
-	int	i;
-
+static char *get_next(char *next)
+{	
+	int i;
 	i = 0;
-	while (buffer[i] != '\0')
-	{
-		if (buffer[i] == 10)
-			return (1);
+
+	char *str;
+	while(next[i] != '\n' && next[i] != '\0')
 		i++;
-	}
-	return (-1);
-}
-
-
-static char	*get_next(char *remember_line)
-{
-	int		i;
-	char	*next_line;
-	int		length_line;
-	int		length;
-
-	i = 0;
-	length = len(remember_line);
-	length_line = ft_strlen(remember_line) - len(remember_line);
-	next_line = (char *)malloc((sizeof(char) + length) + 1);
-	if (next_line == NULL)
-	{
+	str = malloc((ft_strlen(next) - i) + 1);
+	if(str == NULL){
+		free(str);
 		return (NULL);
 	}
-	next_line = cut_string(remember_line, len(remember_line) + 1, length_line);
-	return (next_line);
+	i++;
+	int j;
+	j = 0;
+	while(next[i] != '\0')
+	{
+		str[j] = next[i];
+		j++;
+		i++;
+	}
+	str[j] = '\0';
+	return (str);
 }
 
-static char	*get_line(char *line)
-{
-	int i;
-	int length_line;
-	int j;
+static char* get_line(char *line){
 	char *str;
-	
+	int j;
+
+	int i;
 	i = 0;
-	length_line = len(line);
+	if(check_if_there_newline(line) == -1){
+		str = line;
+		line[ft_strlen(str) + 1] = '\0';
+		return (str);
+	}
+	while(line[i] != '\n' && line[i] != '\0')
+		i++;
+	str = (char*)malloc(sizeof(char) * i + 2);
+	if(str == NULL)
+		return (NULL);
 	j = 0;
-	if(check_if_theres_newline(line) != 1){
-		return (ft_strdup(line));
+	while(j < i){
+		str[j] = line[j];
+		j++;
 	}
-	else{
-		str = malloc(sizeof(char) * length_line + 2);
-		if(str == NULL)
-			return (NULL);
-		while(j < length_line){
-			str[j] = *(line + j);
-			j++;
-		}
-		str[j] = '\n';
-		str[j + 1] = '\0';
-	}
+	str[j] = '\n';
+	str[j + 1] = '\0';
 	free(line);
 	return (str);
 }
 
-char	*get_next_line(int fd)
-{
-	t_next_line	next;
-	static char	*remember_line;
+char *tt(char *remember_line,int fd){
+	
+	ssize_t bytes;
+	char *buffer;
+	char *line;
 
-	if (remember_line == NULL)
-		remember_line = "";
-	next = (t_next_line){.bytes = 1, .buffer = NULL, .return_line = NULL};
-	next.buffer = malloc(BUFFER_SIZE + 1);
-	if (fd < 0 || BUFFER_SIZE <= 0 || next.buffer == NULL)
-		return (NULL);
-	while (next.bytes != 0 && check_if_theres_newline(remember_line) == -1)
+	bytes = 1;
+	while (bytes != 0)
 	{
-		next.bytes = read(fd, next.buffer, BUFFER_SIZE);
-		if (next.bytes == -1)
-		{
-			free(next.buffer);
+		buffer = malloc(BUFFER_SIZE + 1);
+		if(buffer == NULL){
+			free(buffer);
 			return (NULL);
 		}
-		next.buffer[next.bytes] = '\0';
-		remember_line = concatenation(remember_line, next.buffer);
+		bytes = read(fd, buffer, BUFFER_SIZE);
+		if (bytes == -1 || (bytes == 0 && ft_strlen(remember_line) == 0)){
+			free(buffer);
+			free(remember_line);
+			return (NULL);
+		}
+		buffer[bytes] = '\0';
+		line = ft_strjoin(remember_line, buffer);
+		free(buffer);
+		free(remember_line);
+		remember_line = line;
+		if(check_if_there_newline(remember_line) != -1)
+			break;
 	}
-	free(next.buffer);
-	next.return_line = get_line(remember_line);
-	remember_line = get_next(remember_line);
-	return (next.return_line);
+	return (remember_line);
+}
+
+char *get_next_line(int fd){
+	
+	static char *remember_line[OPEN_MAX];
+	char *line;
+	char *next;
+	
+	if(fd < 0 || BUFFER_SIZE == 0 || read(fd,0,0) < 0){
+		free(remember_line[fd]);
+		remember_line[fd] = NULL;
+		return (NULL);
+	}
+	remember_line[fd] = tt(remember_line[fd],fd);
+	if(ft_strlen(remember_line[fd]) == 0)
+		return (NULL);
+	line = get_line(remember_line[fd]);
+	next = get_next(remember_line[fd]);
+	remember_line[fd] = next;
+	return (line);
 }

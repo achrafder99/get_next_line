@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/19 19:51:31 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/20 14:33:51 by adardour         ###   ########.fr       */
+/*   Created: 2022/11/23 18:36:38 by adardour          #+#    #+#             */
+/*   Updated: 2022/11/24 18:16:26 by adardour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,18 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
-#include <limits.h>
 
-char		*concatenation(char const *s1, char const *s2);
-size_t		ft_strlen(const char *s);
-int			len(char *line);
-char		*cut_string(char const *s, unsigned int start, size_t len);
+int		check_if_there_newline(char *line);
+char	*ft_strjoin(char *s1, char *s2);
 char	*get_next_line(int fd);
-char		*ft_strdup(const char *s1);
+size_t	ft_strlen(char *s);
 
-typedef struct next_line
-{
-	char	*buffer;
-	char	*return_line;
-	ssize_t	bytes;
-}			t_next_line;
+typedef struct t_get_next_line{
+    char	*ptr;
+	size_t	i;
+	size_t	j;
+}   t_get_next_line;
 
 #endif

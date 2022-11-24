@@ -6,7 +6,7 @@
 /*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:36 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/24 12:59:22 by adardour         ###   ########.fr       */
+/*   Updated: 2022/11/24 21:01:24 by adardour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,18 @@ static char *get_next(char *next)
 	int i;
 	i = 0;
 
+	int length_line;
+
 	char *str;
 	while(next[i] != '\n' && next[i] != '\0')
 		i++;
-	str = malloc((ft_strlen(next) - i) + 1);
+	
+	length_line = ft_strlen(next) - i;
+	if(length_line == 0){
+		return NULL;
+	}
+	str = malloc((ft_strlen(next) - i));
 	if(str == NULL){
-		free(str);
 		return (NULL);
 	}
 	i++;
@@ -44,23 +50,20 @@ static char* get_line(char *line){
 
 	int i;
 	i = 0;
-	if(check_if_there_newline(line) == -1)
+	if(check_if_there_newline(line) == -1){
 		return (line);
+	}
 	while(line[i] != '\n' && line[i] != '\0')
 		i++;
 	str = (char*)malloc(sizeof(char) * i + 2);
 	if(str == NULL)
-	{
 		return (NULL);
-		free(line);
-	}
 	j = 0;
-	while(j < i){
+	while(j <= i){
 		str[j] = line[j];
 		j++;
 	}
-	str[j] = '\n';
-	str[j + 1] = '\0';
+	str[j] = '\0';
 	free(line);
 	return (str);
 }
@@ -75,8 +78,10 @@ char *tt(char *remember_line,int fd){
 	while (bytes != 0)
 	{
 		buffer = malloc(BUFFER_SIZE + 1);
-		if(buffer == NULL)
+		if(buffer == NULL){
+			free(buffer);
 			return (NULL);
+		}
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes == -1 || (bytes == 0 && ft_strlen(remember_line) == 0)){
 			free(buffer);
@@ -110,20 +115,27 @@ char *get_next_line(int fd){
 	remember_line = next;
 	return (line);
 }
-int main(){
-	int fd;
-	fd = open("test.txt",O_RDONLY);
-	char *line;
-	int i = 0;
-	printf("%s",get_next_line(fd));
-	// printf("%s",get_next_line(fd));
-	// while(i < 1)
-	// {
-	// 	line = get_next_line(fd);
-	// 	printf("%s",line);
-	// 	free(line);
-	// 	i++;
-	// }
-	system("leaks a.out");
-	return 0;
-}
+
+
+
+// int main(){
+// 	int fd1;
+// 	fd1 = open("test.txt",O_RDONLY);
+// 	printf("%s",get_next_line(fd1));
+// 	close(fd1);
+// 	// fd1 = open("test.txt",O_RDONLY);
+// 	// printf("%s",get_next_line(fd1));
+// 	// printf("%s",get_next_line(fd1));
+// 	// int fd2;
+// 	// fd2 = open("test2.txt",O_RDONLY);
+// 	// printf("%s",get_next_line(fd2));
+// 	// printf("%s",get_next_line(fd));
+// 	// while(i < 1)
+// 	// {
+// 	// 	line = get_next_line(fd);
+// 	// 	printf("%s",line);
+// 	// 	free(line);
+// 	// 	i++;
+// 	// }
+// 	return 0;
+// }
