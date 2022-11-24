@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: winkh99 <winkh99@student.42.fr>            +#+  +:+       +#+        */
+/*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:31 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/23 22:36:41 by winkh99          ###   ########.fr       */
+/*   Updated: 2022/11/24 12:24:54 by adardour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int check_if_there_newline(char *line){
 	return (-1);
 }
 
-char	*ft_strjoin(char *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*ptr;
 	size_t	i;
@@ -52,11 +52,13 @@ char	*ft_strjoin(char *s1, char const *s2)
 	return (ptr);
 }
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *s)
 {
 	size_t	size;
 
 	size = 0;
+	if(s == NULL)
+		return (0);
 	while (s[size] != '\0')
 	{
 		size++;

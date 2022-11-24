@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: winkh99 <winkh99@student.42.fr>            +#+  +:+       +#+        */
+/*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:38 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/23 22:36:32 by winkh99          ###   ########.fr       */
+/*   Updated: 2022/11/24 12:25:02 by adardour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 #include <fcntl.h>
 
 int check_if_there_newline(char *line);
-char	*ft_strjoin(char *s1, char const *s2);
+char	*ft_strjoin(char *s1, char *s2);
 char *get_next_line(int fd);
-size_t	ft_strlen(const char *s);
+size_t	ft_strlen(char *s);
 
 
 #endif
