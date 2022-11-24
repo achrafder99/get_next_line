@@ -6,7 +6,7 @@
 /*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:36 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/24 12:43:09 by adardour         ###   ########.fr       */
+/*   Updated: 2022/11/24 12:59:22 by adardour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,8 @@ char *get_next_line(int fd){
 	if(fd < 0 || BUFFER_SIZE == 0)
 		return (NULL);
 	remember_line = tt(remember_line,fd);
-	if(ft_strlen(remember_line) == 0){
+	if(ft_strlen(remember_line) == 0)
 		return (NULL);
-	}
 	line = get_line(remember_line);
 	next = get_next(remember_line);
 	remember_line = next;
