@@ -6,29 +6,31 @@
 /*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:36 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/24 20:05:42 by adardour         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:24:58 by adardour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char *get_next(char *next)
-{	
-	int i;
-	i = 0;
+static char	*get_next(char *next)
+{
+	int		i;
+	int		length_line;
+	char	*str;
+	int		j;
 
-	char *str;
-	while(next[i] != '\n' && next[i] != '\0')
+	i = 0;
+	while (next[i] != '\n' && next[i] != '\0')
 		i++;
-	str = malloc((ft_strlen(next) - i) + 1);
-	if(str == NULL){
-		free(str);
+	length_line = ft_strlen(next) - i;
+	if (length_line == 0)
 		return (NULL);
-	}
+	str = malloc((ft_strlen(next) - i));
+	if (str == NULL)
+		return (NULL);
 	i++;
-	int j;
 	j = 0;
-	while(next[i] != '\0')
+	while (next[i] != '\0')
 	{
 		str[j] = next[i];
 		j++;
@@ -38,77 +40,70 @@ static char *get_next(char *next)
 	return (str);
 }
 
-static char* get_line(char *line){
-	char *str;
-	int j;
+static char	*get_line(char *line)
+{
+	char	*str;
+	int		j;
+	int		i;
 
-	int i;
 	i = 0;
-	if(check_if_there_newline(line) == -1){
-		str = line;
-		line[ft_strlen(str) + 1] = '\0';
-		return (str);
-	}
-	while(line[i] != '\n' && line[i] != '\0')
+	if (check_if_there_newline(line) == -1)
+		return (line);
+	while (line[i] != '\n' && line[i] != '\0')
 		i++;
-	str = (char*)malloc(sizeof(char) * i + 2);
-	if(str == NULL)
+	str = (char *)malloc(sizeof(char) * i + 2);
+	if (str == NULL)
 		return (NULL);
 	j = 0;
-	while(j < i){
+	while (j <= i)
+	{
 		str[j] = line[j];
 		j++;
 	}
-	str[j] = '\n';
-	str[j + 1] = '\0';
+	str[j] = '\0';
 	free(line);
 	return (str);
 }
 
-char *tt(char *remember_line,int fd){
-	
-	ssize_t bytes;
-	char *buffer;
-	char *line;
+char	*get_full_line(char *remember_line, int fd)
+{
+	t_get_next_line	t_get_next;
 
-	bytes = 1;
-	while (bytes != 0)
+	t_get_next = (t_get_next_line){.bytes = 1, .out = 0};
+	while (t_get_next.bytes != 0 && t_get_next.out == 0)
 	{
-		buffer = malloc(BUFFER_SIZE + 1);
-		if(buffer == NULL){
-			free(buffer);
+		t_get_next.buffer = malloc(BUFFER_SIZE + 1);
+		if (t_get_next.buffer == NULL)
 			return (NULL);
-		}
-		bytes = read(fd, buffer, BUFFER_SIZE);
-		if (bytes == -1 || (bytes == 0 && ft_strlen(remember_line) == 0)){
-			free(buffer);
+		t_get_next.bytes = read(fd, t_get_next.buffer, BUFFER_SIZE);
+		if (t_get_next.bytes == -1 || (t_get_next.bytes == 0
+				&& ft_strlen(remember_line) == 0))
+		{
+			free(t_get_next.buffer);
 			free(remember_line);
 			return (NULL);
 		}
-		buffer[bytes] = '\0';
-		line = ft_strjoin(remember_line, buffer);
-		free(buffer);
+		t_get_next.buffer[t_get_next.bytes] = '\0';
+		t_get_next.line = concatenation(remember_line, t_get_next.buffer);
+		free(t_get_next.buffer);
 		free(remember_line);
-		remember_line = line;
-		if(check_if_there_newline(remember_line) != -1)
-			break;
+		remember_line = t_get_next.line;
+		if (check_if_there_newline(remember_line) != -1)
+			t_get_next.out = 1;
 	}
 	return (remember_line);
 }
 
-char *get_next_line(int fd){
-	
-	static char *remember_line[OPEN_MAX];
-	char *line;
-	char *next;
-	
-	if(fd < 0 || BUFFER_SIZE == 0 || read(fd,0,0) < 0){
-		free(remember_line[fd]);
-		remember_line[fd] = NULL;
+char	*get_next_line(int fd)
+{
+	static char	*remember_line[OPEN_MAX];
+	char		*line;
+	char		*next;
+
+	if (fd < 0 || BUFFER_SIZE == 0)
 		return (NULL);
-	}
-	remember_line[fd] = tt(remember_line[fd],fd);
-	if(ft_strlen(remember_line[fd]) == 0)
+	remember_line[fd] = get_full_line(remember_line[fd], fd);
+	if (ft_strlen(remember_line[fd]) == 0)
 		return (NULL);
 	line = get_line(remember_line[fd]);
 	next = get_next(remember_line[fd]);

@@ -6,7 +6,7 @@
 /*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:31 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/24 18:16:08 by adardour         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:12:13 by adardour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_if_there_newline(char *line)
 	return (-1);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*concatenation(char *s1, char *s2)
 {
 	t_get_next_line	t_get_next;
 
