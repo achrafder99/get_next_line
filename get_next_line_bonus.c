@@ -6,11 +6,11 @@
 /*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:36 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/25 12:24:58 by adardour         ###   ########.fr       */
+/*   Updated: 2022/11/28 20:27:22 by adardour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*get_next(char *next)
 {
@@ -25,7 +25,7 @@ static char	*get_next(char *next)
 	length_line = ft_strlen(next) - i;
 	if (length_line == 0)
 		return (NULL);
-	str = malloc((ft_strlen(next) - i));
+	str = (char *)malloc(sizeof(char) * length_line);
 	if (str == NULL)
 		return (NULL);
 	i++;
@@ -37,6 +37,7 @@ static char	*get_next(char *next)
 		i++;
 	}
 	str[j] = '\0';
+	free(next);
 	return (str);
 }
 
@@ -51,17 +52,18 @@ static char	*get_line(char *line)
 		return (line);
 	while (line[i] != '\n' && line[i] != '\0')
 		i++;
-	str = (char *)malloc(sizeof(char) * i + 2);
+	if (line[i] == 10)
+		i++;
+	str = (char *)malloc(sizeof(char) * i + 1);
 	if (str == NULL)
 		return (NULL);
 	j = 0;
-	while (j <= i)
+	while (j < i)
 	{
 		str[j] = line[j];
 		j++;
 	}
 	str[j] = '\0';
-	free(line);
 	return (str);
 }
 
@@ -98,15 +100,15 @@ char	*get_next_line(int fd)
 {
 	static char	*remember_line[OPEN_MAX];
 	char		*line;
-	char		*next;
+	char		*temp;
 
 	if (fd < 0 || BUFFER_SIZE == 0)
 		return (NULL);
 	remember_line[fd] = get_full_line(remember_line[fd], fd);
 	if (ft_strlen(remember_line[fd]) == 0)
 		return (NULL);
+	temp = remember_line[fd];
 	line = get_line(remember_line[fd]);
-	next = get_next(remember_line[fd]);
-	remember_line[fd] = next;
+	remember_line[fd] = get_next(temp);
 	return (line);
 }

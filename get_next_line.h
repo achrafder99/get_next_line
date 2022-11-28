@@ -6,12 +6,16 @@
 /*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:38 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/25 12:12:05 by adardour         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:26:22 by adardour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 # include <fcntl.h>
 # include <limits.h>

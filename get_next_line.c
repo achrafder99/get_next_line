@@ -6,7 +6,7 @@
 /*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:36 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/25 12:25:49 by adardour         ###   ########.fr       */
+/*   Updated: 2022/11/28 20:25:59 by adardour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*get_next(char *next)
 	length_line = ft_strlen(next) - i;
 	if (length_line == 0)
 		return (NULL);
-	str = malloc((ft_strlen(next) - i));
+	str = (char *)malloc(sizeof(char) * length_line);
 	if (str == NULL)
 		return (NULL);
 	i++;
@@ -37,6 +37,7 @@ static char	*get_next(char *next)
 		i++;
 	}
 	str[j] = '\0';
+	free(next);
 	return (str);
 }
 
@@ -51,17 +52,18 @@ static char	*get_line(char *line)
 		return (line);
 	while (line[i] != '\n' && line[i] != '\0')
 		i++;
-	str = (char *)malloc(sizeof(char) * i + 2);
+	if (line[i] == 10)
+		i++;
+	str = (char *)malloc(sizeof(char) * i + 1);
 	if (str == NULL)
 		return (NULL);
 	j = 0;
-	while (j <= i)
+	while (j < i)
 	{
 		str[j] = line[j];
 		j++;
 	}
 	str[j] = '\0';
-	free(line);
 	return (str);
 }
 
@@ -72,7 +74,7 @@ char	*get_full_line(char *remember_line, int fd)
 	t_get_next = (t_get_next_line){.bytes = 1, .out = 0};
 	while (t_get_next.bytes != 0 && t_get_next.out == 0)
 	{
-		t_get_next.buffer = malloc(BUFFER_SIZE + 1);
+		t_get_next.buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
 		if (t_get_next.buffer == NULL)
 			return (NULL);
 		t_get_next.bytes = read(fd, t_get_next.buffer, BUFFER_SIZE);
@@ -98,15 +100,15 @@ char	*get_next_line(int fd)
 {
 	static char	*remember_line;
 	char		*line;
-	char		*next;
+	char		*temp;
 
 	if (fd < 0 || BUFFER_SIZE == 0)
 		return (NULL);
 	remember_line = get_full_line(remember_line, fd);
 	if (ft_strlen(remember_line) == 0)
 		return (NULL);
+	temp = remember_line;
 	line = get_line(remember_line);
-	next = get_next(remember_line);
-	remember_line = next;
+	remember_line = get_next(temp);
 	return (line);
 }

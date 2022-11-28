@@ -6,11 +6,11 @@
 /*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:31 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/25 12:11:57 by adardour         ###   ########.fr       */
+/*   Updated: 2022/11/28 19:48:02 by adardour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	check_if_there_newline(char *line)
 {
