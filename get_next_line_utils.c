@@ -6,7 +6,7 @@
 /*   By: adardour <adardour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:36:31 by adardour          #+#    #+#             */
-/*   Updated: 2022/11/25 12:12:13 by adardour         ###   ########.fr       */
+/*   Updated: 2022/11/28 20:51:03 by adardour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ char	*concatenation(char *s1, char *s2)
 		s1 = "";
 	t_get_next.ptr = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (t_get_next.ptr == NULL)
-	{
-		free(t_get_next.ptr);
 		return (NULL);
-	}
 	while (s1[t_get_next.i] != '\0')
 	{
 		t_get_next.ptr[t_get_next.i] = s1[t_get_next.i];
